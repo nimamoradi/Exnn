@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='exnn',
-      version='0.2',
+      version='0.3',
       description='The enhanced explainable neural network with sparse, orthogonal and smooth constraints',
       url='https://github.com/ZebinYang/exnn',
       author='Zebin Yang',
