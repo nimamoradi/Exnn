@@ -335,7 +335,7 @@ class BaseNet(tf.keras.Model, metaclass=ABCMeta):
                 offset = (iterations * self.batch_size) % train_size
                 batch_xx = tr_x[offset:(offset + self.batch_size), :]
                 batch_yy = tr_y[offset:(offset + self.batch_size)]
-                self.train_step_finetune(tf.cast(batch_xx, tf.float32), batch_yy)
+                self.train_step_finetune(tf.cast(batch_xx, tf.int32), batch_yy)
 
             self.err_train.append(self.evaluate(tr_x, tr_y, training=False))
             self.err_val.append(self.evaluate(val_x, val_y, training=False))
@@ -389,7 +389,7 @@ class BaseNet(tf.keras.Model, metaclass=ABCMeta):
             min_ = self.subnet_input_min[indice]
             max_ = self.subnet_input_max[indice]
             subnets_inputs = np.linspace(min_, max_, 1000).reshape([-1, 1])
-            subnets_outputs = np.sign(beta[indice]) * subnet.__call__(tf.cast(tf.constant(subnets_inputs), tf.float32)).numpy()
+            subnets_outputs = np.sign(beta[indice]) * subnet.__call__(tf.cast(tf.constant(subnets_inputs), tf.int32)).numpy()
 
             if coef_index[np.argmax(np.abs(coef_index[:, indice])), indice] < 0:
                 coef_index[:, indice] = - coef_index[:, indice]
@@ -478,7 +478,7 @@ class BaseNet(tf.keras.Model, metaclass=ABCMeta):
             max_ = self.subnet_input_max[indice]
             density, bins = self.subnet_input_density[indice]
             xgrid = np.linspace(min_, max_, 1000).reshape([-1, 1])
-            ygrid = np.sign(item["beta"]) * subnet.__call__(tf.cast(tf.constant(xgrid), tf.float32)).numpy()
+            ygrid = np.sign(item["beta"]) * subnet.__call__(tf.cast(tf.constant(xgrid), tf.int32)).numpy()
 
             if coef_index[np.argmax(np.abs(coef_index[:, indice])), indice] < 0:
                 coef_index[:, indice] = - coef_index[:, indice]
