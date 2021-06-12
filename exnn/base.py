@@ -292,7 +292,7 @@ class BaseNet(tf.keras.Model, metaclass=ABCMeta):
                 offset = (iterations * self.batch_size) % train_size
                 batch_xx = tr_x[offset:(offset + self.batch_size), :]
                 batch_yy = tr_y[offset:(offset + self.batch_size)]
-                self.train_step_init(tf.cast(batch_xx, tf.float32), batch_yy)
+                self.train_step_init(tf.cast(batch_xx, tf.int32), batch_yy)
 
             self.err_train.append(self.evaluate(tr_x, tr_y, training=False))
             self.err_val.append(self.evaluate(val_x, val_y, training=False))
