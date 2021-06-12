@@ -16,7 +16,7 @@ class BaseNet(tf.keras.Model, metaclass=ABCMeta):
     Abstract Class.
     """
     @abstractmethod
-    def __init__(self, meta_info,
+    def __init__(self,
                  subnet_num=10,
                  subnet_arch=[10, 6],
                  task_type="Regression",
@@ -73,21 +73,6 @@ class BaseNet(tf.keras.Model, metaclass=ABCMeta):
         
         self.feature_list_ = []
         self.feature_type_list_ = []
-        for idx, (feature_name, feature_info) in enumerate(meta_info.items()):
-            if feature_info["type"] == "target":
-                continue
-            if feature_info["type"] == "categorical":
-                self.cfeature_num_ += 1
-                self.cfeature_list_.append(feature_name)
-                self.cfeature_index_list_.append(idx)
-                self.feature_type_list_.append("categorical")
-                self.dummy_values_.update({feature_name:meta_info[feature_name]["values"]})
-            else:
-                self.nfeature_num_ += 1
-                self.nfeature_list_.append(feature_name)
-                self.nfeature_index_list_.append(idx)
-                self.feature_type_list_.append("continuous")
-            self.feature_list_.append(feature_name)
 
         # build
         self.subnet_num = min(self.subnet_num, self.nfeature_num_)
