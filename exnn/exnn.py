@@ -37,6 +37,7 @@ class ExNN(BaseNet):
     def train_step_init(self, inputs, labels):
         with tf.GradientTape() as tape_cl:
             with tf.GradientTape() as tape_bp:
+                print(inputs)
                 pred = self.__call__(inputs, training=True)
                 pred_loss = self.loss_fn(labels, pred)
                 regularization_loss = tf.math.add_n(self.proj_layer.losses + self.output_layer.losses)
